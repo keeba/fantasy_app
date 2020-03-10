@@ -1,0 +1,336 @@
+_firestore
+    .collection('players')
+    .document('M.S. Dhoni')
+    .setData({
+  'id': 1,
+  'name': 'M.S. Dhoni',
+  'teamname': 'CSK',
+  'type': 4,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 100000,
+  'key': 'Dhoni'
+});
+_firestore
+    .collection('players')
+    .document('D.J. Bravo')
+    .setData({
+  'id': 2,
+  'name': 'D.J. Bravo',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': true,
+  'country': 'WI',
+  'salary': 100000,
+  'key': 'Dwayne Bravo'
+});
+_firestore
+    .collection('players')
+    .document('KM Asif')
+    .setData({
+  'id': 3,
+  'name': 'KM Asif',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 65000,
+  'key': 'Asif'
+});
+_firestore
+    .collection('players')
+    .document('Deepak Chahar')
+    .setData({
+  'id': 4,
+  'name': 'Deepak Chahar',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 95000,
+  'key': 'Deepak Chahar'
+});
+_firestore
+    .collection('players')
+    .document('Piyush Chawla')
+    .setData({
+  'id': 5,
+  'name': 'Piyush Chawla',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 85000,
+  'key': 'Chawla'
+});
+_firestore
+    .collection('players')
+    .document('Sam Curran')
+    .setData({
+  'id': 6,
+  'name': 'Sam Curran',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': true,
+  'country': 'Eng',
+  'salary': 95000,
+  'key': 'Sam Curran'
+});
+_firestore
+    .collection('players')
+    .document('Faf du Plessis')
+    .setData({
+  'id': 7,
+  'name': 'Faf du Plessis',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': true,
+  'country': 'SA',
+  'salary': 95000,
+  'key': 'du Plessis'
+});
+_firestore
+    .collection('players')
+    .document('Ruturaj Gaikwad')
+    .setData({
+  'id': 8,
+  'name': 'Ruturaj Gaikwad',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 65000,
+  'key': 'Gaikwad'
+});
+_firestore
+    .collection('players')
+    .document('Harbhajan Singh')
+    .setData({
+  'id': 9,
+  'name': 'Harbhajan Singh',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 90000,
+  'key': 'Harbhajan'
+});
+_firestore
+    .collection('players')
+    .document('Josh Hazlewood')
+    .setData({
+  'id': 10,
+  'name': 'Josh Hazlewood',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': true,
+  'country': 'Aus',
+  'salary': 95000,
+  'key': 'Hazlewood'
+});
+_firestore
+    .collection('players')
+    .document('Imran Tahir')
+    .setData({
+  'id': 11,
+  'name': 'Imran Tahir',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': true,
+  'country': 'SA',
+  'salary': 95000,
+  'key': 'Tahir'
+});
+_firestore
+    .collection('players')
+    .document('Ravindra Jadeja')
+    .setData({
+  'id': 12,
+  'name': 'Ravindra Jadeja',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 100000,
+  'key': 'Jadeja'
+});
+_firestore
+    .collection('players')
+    .document('Kedar Jadhav')
+    .setData({
+  'id': 13,
+  'name': 'Kedar Jadhav',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 90000,
+  'key': 'Jadhav'
+});
+_firestore
+    .collection('players')
+    .document('Narayan Jadadeesan')
+    .setData({
+  'id': 14,
+  'name': 'Narayan Jadadeesan',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 65000,
+  'key': 'Jagadeesan'
+});
+_firestore
+    .collection('players')
+    .document('Monu Kumar')
+    .setData({
+  'id': 15,
+  'name': 'Monu Kumar',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 65000,
+  'key': 'Monu'
+});
+_firestore
+    .collection('players')
+    .document('Lungi Ngidi')
+    .setData({
+  'id': 16,
+  'name': 'Lungi Ngidi',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': true,
+  'country': 'SA',
+  'salary': 90000,
+  'key': 'Ngidi'
+});
+_firestore
+    .collection('players')
+    .document('Suresh Raina')
+    .setData({
+  'id': 17,
+  'name': 'Suresh Raina',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 110000,
+  'key': 'Raina'
+});
+_firestore
+    .collection('players')
+    .document('Ambati Rayudu')
+    .setData({
+  'id': 18,
+  'name': 'Ambati Rayudu',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 95000,
+  'key': 'Rayudu'
+});
+_firestore
+    .collection('players')
+    .document('R.S. Kishore')
+    .setData({
+  'id': 19,
+  'name': 'R.S. Kishore',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 65000,
+  'key': 'Kishore'
+});
+_firestore
+    .collection('players')
+    .document('Michell Santner')
+    .setData({
+  'id': 20,
+  'name': 'Michell Santner',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': true,
+  'country': 'NZ',
+  'salary': 90000,
+  'key': 'Santner'
+});
+_firestore
+    .collection('players')
+    .document('Karn Sharma')
+    .setData({
+  'id': 21,
+  'name': 'Karn Sharma',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 75000,
+  'key': 'Karn'
+});
+_firestore
+    .collection('players')
+    .document('Shardul Thakur')
+    .setData({
+  'id': 22,
+  'name': 'Shardul Thakur',
+  'teamname': 'CSK',
+  'type': 2,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 85000,
+  'key': 'Shardul'
+});
+_firestore
+    .collection('players')
+    .document('Murali Vijay')
+    .setData({
+  'id': 23,
+  'name': 'Murali Vijay',
+  'teamname': 'CSK',
+  'type': 1,
+  'injured': false,
+  'overseas': false,
+  'country': 'India',
+  'salary': 85000,
+  'key': 'Vijay'
+});
+_firestore
+    .collection('players')
+    .document('Shane Watson')
+    .setData({
+  'id': 24,
+  'name': 'Shane Watson',
+  'teamname': 'CSK',
+  'type': 3,
+  'injured': false,
+  'overseas': true,
+  'country': 'Aus',
+  'salary': 100000,
+  'key': 'Watson'
+});
