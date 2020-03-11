@@ -20,7 +20,7 @@ class RulesPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.green[300],
+                      color: Color(0xff82E0AA),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -32,7 +32,7 @@ class RulesPage extends StatelessWidget {
                           style: GoogleFonts.robotoSlab(
                             fontSize: 19.2,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.black,
                           ),
                         ),
                         Row(
@@ -43,7 +43,7 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             playerIcons[1],
@@ -56,7 +56,7 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             playerIcons[3],
@@ -70,7 +70,7 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             playerIcons[4],
@@ -83,7 +83,7 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             playerIcons[2],
@@ -96,7 +96,7 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             playerIcons[5],
@@ -111,7 +111,7 @@ class RulesPage extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: Colors.green[300],
+                      color: Color(0xff82E0AA),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -123,7 +123,7 @@ class RulesPage extends StatelessWidget {
                           style: GoogleFonts.robotoSlab(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black87,
+                            color: Colors.black,
                           ),
                         ),
                         Row(
@@ -133,15 +133,15 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             Text(
-                              '80',
+                              ' 80',
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -153,15 +153,15 @@ class RulesPage extends StatelessWidget {
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xff006400),
+                                color: Colors.black54,
                               ),
                             ),
                             Text(
-                              '10',
+                              ' 10',
                               style: GoogleFonts.robotoSlab(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           ],
@@ -171,7 +171,7 @@ class RulesPage extends StatelessWidget {
                           style: GoogleFonts.robotoSlab(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff8B0000),
+                            color: Colors.black,
                           ),
                         ),
                         Text(
@@ -179,31 +179,31 @@ class RulesPage extends StatelessWidget {
                           style: GoogleFonts.robotoSlab(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff8B0000),
+                            color: Colors.black,
                           ),
                         ),
                         Text(
-                          'will be calculated based on the',
-                          style: GoogleFonts.robotoSlab(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff8B0000),
-                          ),
-                        ),
-                        Text(
-                          'effective transfers between',
+                          'is deducted by comparing',
                           style: GoogleFonts.robotoSlab(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff8B0000),
+                            color: Colors.black,
                           ),
                         ),
                         Text(
-                          'current and prev matches.',
+                          'the locked teams of current',
                           style: GoogleFonts.robotoSlab(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff8B0000),
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'and previous matches.',
+                          style: GoogleFonts.robotoSlab(
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -223,7 +223,7 @@ class RulesPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.green[300],
+                        color: Color(0xff82E0AA),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -235,7 +235,7 @@ class RulesPage extends StatelessWidget {
                             style: GoogleFonts.robotoSlab(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Colors.black,
                             ),
                           ),
                           PointsCard('1 Run ', '1 Point', true),
@@ -248,17 +248,17 @@ class RulesPage extends StatelessWidget {
                           Text(
                             'Runs - Balls',
                             style: GoogleFonts.robotoSlab(
-                              fontSize: 17.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                           Text(
                             '(doubled if positive)',
                             style: GoogleFonts.robotoSlab(
-                              fontSize: 16.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.yellow[300],
+                              color: Colors.black54,
                             ),
                           ),
                         ],
@@ -272,7 +272,7 @@ class RulesPage extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.green[300],
+                        color: Color(0xff82E0AA),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -284,7 +284,7 @@ class RulesPage extends StatelessWidget {
                             style: GoogleFonts.robotoSlab(
                               fontSize: 20.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Colors.black,
                             ),
                           ),
                           SizedBox(
@@ -299,17 +299,17 @@ class RulesPage extends StatelessWidget {
                           Text(
                             'Balls - Runs',
                             style: GoogleFonts.robotoSlab(
-                              fontSize: 17.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                           Text(
                             '(doubled if positive)',
                             style: GoogleFonts.robotoSlab(
-                              fontSize: 16.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
-                              color: Colors.yellow[300],
+                              color: Colors.black54,
                             ),
                           ),
                         ],
@@ -327,7 +327,7 @@ class RulesPage extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.green[300],
+                  color: Color(0xff82E0AA),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -338,7 +338,7 @@ class RulesPage extends StatelessWidget {
                       style: GoogleFonts.robotoSlab(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                        color: Colors.black,
                       ),
                     ),
                     SizedBox(
@@ -346,6 +346,14 @@ class RulesPage extends StatelessWidget {
                     ),
                     PointsCard('1 Catch/Stumping/Runout ', '10 Points', false),
                     PointsCard('Man of the Match', '25 Points', false),
+                    Text(
+                      'Points will be doubled for captain.',
+                      style: GoogleFonts.robotoSlab(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -374,7 +382,7 @@ class PointsCard extends StatelessWidget {
           style: GoogleFonts.robotoSlab(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
-            color: Color(0xff006400),
+            color: Colors.black54,
           ),
         ),
         Text(
@@ -382,7 +390,7 @@ class PointsCard extends StatelessWidget {
           style: GoogleFonts.robotoSlab(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
-            color: Colors.black87,
+            color: Colors.black,
           ),
         ),
         Text(
@@ -390,7 +398,7 @@ class PointsCard extends StatelessWidget {
           style: GoogleFonts.robotoSlab(
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ],

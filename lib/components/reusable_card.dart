@@ -16,15 +16,15 @@ class ReusableCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.green[300],
-          borderRadius: BorderRadius.circular(10),
-        ),
+            color: Color(0xffABEBC6),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black54, width: 2.0)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
               fontIcon,
-              color: Colors.green[900],
+              color: Colors.black54,
               size: 50,
             ),
             SizedBox(
@@ -35,7 +35,7 @@ class ReusableCard extends StatelessWidget {
               style: GoogleFonts.robotoSlab(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: Colors.black,
               ),
             ),
           ],

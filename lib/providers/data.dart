@@ -14,6 +14,7 @@ class DataRepository extends ChangeNotifier {
   DocumentSnapshot _configurations;
   String _currentMatch;
   int _currentMatchID;
+  String _prevMatch;
   Map _hCurrentPlayers = {};
   String _userEmail;
   String _selectedPlayerIndex;
@@ -72,12 +73,16 @@ class DataRepository extends ChangeNotifier {
               .snapshots()
               .listen(
             (d) {
-              d.documents.forEach((doc) {
-                if (doc['id'] == _currentMatchID) {
-                  _currentMatch = doc['name'];
-                }
-                _matches.add(doc);
-              });
+              d.documents.forEach(
+                (doc) {
+                  if (doc['id'] == _currentMatchID) {
+                    _currentMatch = doc['name'];
+                  } else if (doc['id'] == _configurations['prev_match']) {
+                    _prevMatch = doc['name'];
+                  }
+                  _matches.add(doc);
+                },
+              );
             },
           );
           _db.collection('users').document(userEmail).get().then(
@@ -304,10 +309,12 @@ class DataRepository extends ChangeNotifier {
           'player11': _hCurrentPlayers['player11'].id,
           'captain': _hCurrentPlayers['captain'].id,
         },
-      ).then((ds) {
-        _status = DataStatus.Saved;
-        notifyListeners();
-      });
+      ).then(
+        (ds1) {
+          _status = DataStatus.Saved;
+          notifyListeners();
+        },
+      );
     } catch (e) {
       _status = DataStatus.Failed;
     }

@@ -10,7 +10,7 @@ class WrapperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xff037d50),
+        color: Color(0xff007676),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -20,10 +20,10 @@ class WrapperWidget extends StatelessWidget {
             style: GoogleFonts.robotoSlab(
               fontWeight: FontWeight.bold,
               fontSize: 50.0,
-              color: Colors.lime,
+              color: Colors.white70,
             ),
           ),
-          backgroundColor: Color(0xff026440),
+          backgroundColor: Color(0xff004D4D),
           centerTitle: true,
         ),
         body: pageWidget,

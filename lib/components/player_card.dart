@@ -62,7 +62,7 @@ class Captain extends StatelessWidget {
                     player.id > 0 ? player.displayName(true) : 'Captain',
                     style: GoogleFonts.robotoSlab(
                       fontSize: 15.0,
-                      color: Colors.white70,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -187,7 +187,7 @@ class PlayerShow extends StatelessWidget {
                     style: GoogleFonts.robotoSlab(
                       fontSize:
                           player.displayName(false).length > 12 ? 13.0 : 15.0,
-                      color: Colors.white70,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
