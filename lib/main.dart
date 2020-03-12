@@ -21,13 +21,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => UserRepository(),
         ),
-        ChangeNotifierProxyProvider<UserRepository, DataRepository>(
-          create: (_) => DataRepository(null),
-          update: (context, user, data) => DataRepository(user.user.email),
+        ChangeNotifierProvider<DataRepository>(
+          create: (_) => DataRepository(),
         ),
       ],
-      child: Consumer<UserRepository>(
-        builder: (context, user, widget) {
+      child: Consumer2<UserRepository, DataRepository>(
+        builder: (context, user, data, widget) {
           return MaterialApp(
             title: 'My Fantasy',
             theme: ThemeData(

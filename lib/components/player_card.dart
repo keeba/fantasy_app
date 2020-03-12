@@ -23,7 +23,7 @@ class Captain extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           if (edit) {
-            data.setSelectedPlayers();
+            data.setCaptainPlayers();
             Navigator.pushNamed(context, 'selectcaptain');
           }
         },

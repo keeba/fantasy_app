@@ -1,8 +1,8 @@
+import 'package:fantasy_app/components/commonfunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:fantasy_app/components/wrapper_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:fantasy_app/components/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:fantasy_app/providers/user.dart';
@@ -71,35 +71,19 @@ class _RegisterPageState extends State<RegisterPage> {
                           if (_formKey.currentState.validate()) {
                             await user
                                 .register(_email, _password, _teamName)
-                                .then((userRegistered) {
-                              if (userRegistered) {
-                                Navigator.pushNamed(context, 'homescreen');
-                              } else {
-                                setState(
-                                  () {
-                                    return Alert(
-                                      type: AlertType.error,
-                                      context: context,
-                                      title: 'Error',
-                                      desc: user.errorMessage,
-                                      buttons: [
-                                        DialogButton(
-                                          child: Text(
-                                            "OK",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          width: 120,
-                                        )
-                                      ],
-                                    ).show();
-                                  },
-                                );
-                              }
-                            });
+                                .then(
+                              (userRegistered) {
+                                if (userRegistered) {
+                                  Navigator.pushNamed(context, 'homescreen');
+                                } else {
+                                  showToast(
+                                    user.errorMessage,
+                                    Colors.red,
+                                    4,
+                                  );
+                                }
+                              },
+                            );
                           }
                         },
                         child: Text(

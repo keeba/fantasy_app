@@ -95,16 +95,15 @@ class UserRepository extends ChangeNotifier {
     }
   }
 
-  void updateUserInfo(_email, _teamName) {
-    _db.collection('configurations').document('configurations').get().then(
-      (DocumentSnapshot ds) {
-        _db.collection('users').document(_email).setData(
-          {
-            'transfers_total': ds['phase_transfers'],
-            'transfers_left': ds['phase_transfers'],
-            'team_name': _teamName,
-          },
-        );
+  Future<void> updateUserInfo(_email, _teamName) async {
+    DocumentSnapshot configDS =
+        await _db.collection('configurations').document('configurations').get();
+
+    await _db.collection('users').document(_email).setData(
+      {
+        'transfers_total': configDS['phase_transfers'],
+        'transfers_left': configDS['phase_transfers'],
+        'team_name': _teamName,
       },
     );
   }

@@ -22,21 +22,40 @@ class ReusableCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              fontIcon,
-              color: Colors.black54,
-              size: 50,
+            Expanded(
+              flex: 2,
+              child: Container(),
             ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text(
-              title,
-              style: GoogleFonts.robotoSlab(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            Expanded(
+              flex: 4,
+              child: new LayoutBuilder(
+                builder: (context, constraint) {
+                  return new Icon(
+                    fontIcon,
+                    size: constraint.biggest.height,
+                    color: Colors.black54,
+                  );
+                },
               ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(),
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                title,
+                style: GoogleFonts.robotoSlab(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
           ],
         ),

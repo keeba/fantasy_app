@@ -175,7 +175,7 @@ class RulesPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'start of play. No of transfers',
+                          'start of play. # of transfers',
                           style: GoogleFonts.robotoSlab(
                             fontSize: 13.0,
                             fontWeight: FontWeight.bold,

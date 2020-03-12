@@ -76,7 +76,7 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
             margin: EdgeInsets.all(8.0),
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Color(0xff8FBC8F),
+              color: Colors.yellow[100],
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Row(
@@ -90,7 +90,7 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
                       style: GoogleFonts.robotoSlab(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green[900],
+                        color: Colors.black54,
                       ),
                     ),
                     SizedBox(
@@ -104,12 +104,12 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
                         padding: EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
                           border:
-                              Border.all(color: Colors.blue[900], width: 1.0),
+                              Border.all(color: Colors.yellow[900], width: 1.0),
                           borderRadius: BorderRadius.circular(5.0),
-                          color: Colors.blue[400],
+                          color: Colors.yellow[700],
                         ),
                         child: Text(
-                          'View All',
+                          'Show All',
                           style: GoogleFonts.robotoSlab(
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
@@ -189,7 +189,6 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
                         return data.isNotAnExistingPlayer(player)
                             ? PlayerEdit(player)
                             : SizedBox.shrink();
-                        ;
                       },
                     );
                   } else {

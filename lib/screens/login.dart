@@ -1,10 +1,11 @@
+import 'package:fantasy_app/components/commonfunctions.dart';
+import 'package:fantasy_app/providers/data.dart';
 import 'package:fantasy_app/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fantasy_app/components/wrapper_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:fantasy_app/components/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+    final data = Provider.of<DataRepository>(context);
     return WrapperWidget(
       pageWidget: Container(
         margin: EdgeInsets.all(10.0),
@@ -58,30 +60,14 @@ class _LoginPageState extends State<LoginPage> {
                             await user.signIn(_email, _password).then(
                               (userSignedIn) {
                                 if (userSignedIn) {
+                                  data.userEmail = user.user.email;
+                                  data.getData();
                                   Navigator.pushNamed(context, 'homescreen');
                                 } else {
-                                  setState(
-                                    () {
-                                      return Alert(
-                                        type: AlertType.error,
-                                        context: context,
-                                        title: 'Error',
-                                        desc: user.errorMessage,
-                                        buttons: [
-                                          DialogButton(
-                                            child: Text(
-                                              "OK",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 20),
-                                            ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            width: 120,
-                                          )
-                                        ],
-                                      ).show();
-                                    },
+                                  showToast(
+                                    user.errorMessage,
+                                    Colors.red,
+                                    4,
                                   );
                                 }
                               },

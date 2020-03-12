@@ -5,8 +5,7 @@ import '../components/wrapper_widget.dart';
 import '../components/player_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/data.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fantasy_app/components/commonfunctions.dart';
 
 class TeamPage extends StatefulWidget {
   TeamPage({this.edit: false});
@@ -22,24 +21,11 @@ class _TeamPageState extends State<TeamPage> {
     edit = widget.edit;
   }
 
-  void showToast() {
-    Fluttertoast.showToast(
-        msg: 'Team Saved!',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIos: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white);
-  }
-
-  int dropdownValue;
   bool edit;
-  String playerEdit;
 
   @override
   Widget build(BuildContext context) {
     final data = Provider.of<DataRepository>(context);
-    dropdownValue = data.currentMatchID;
     return WrapperWidget(
       pageWidget: data.status == DataStatus.Loading
           ? Center(child: CircularProgressIndicator())
@@ -70,12 +56,11 @@ class _TeamPageState extends State<TeamPage> {
                                 color: Colors.limeAccent,
                               ),
                             ),
-                            data.configurations['phase_started']
+                            data.phaseStarted
                                 ? Row(
                                     children: <Widget>[
                                       Text(
-                                        data.userData['transfers_left']
-                                            .toString(),
+                                        data.transfersLeft.toString(),
                                         style: GoogleFonts.robotoSlab(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold,
@@ -91,8 +76,7 @@ class _TeamPageState extends State<TeamPage> {
                                         ),
                                       ),
                                       Text(
-                                        data.userData['transfers_total']
-                                            .toString(),
+                                        data.totalTransfers.toString(),
                                         style: GoogleFonts.robotoSlab(
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.bold,
@@ -127,8 +111,8 @@ class _TeamPageState extends State<TeamPage> {
                           ),
                         )
                       : Container(
-                          child: DropdownButton<int>(
-                            value: dropdownValue,
+                          child: DropdownButton<String>(
+                            value: data.selectedMatch,
                             icon: Icon(FontAwesomeIcons.arrowDown),
                             iconSize: 16,
                             elevation: 16,
@@ -141,18 +125,18 @@ class _TeamPageState extends State<TeamPage> {
                               height: 2,
                               color: Colors.amberAccent,
                             ),
-                            onChanged: (int newValue) {
-                              setState(() {
-                                dropdownValue = newValue;
-                              });
+                            onChanged: (String newValue) async {
+                              data.selectedMatch = newValue;
+                              await data.getPlayersList(newValue);
                             },
-                            items: data.matches
-                                .map<DropdownMenuItem<int>>((match) {
-                              return DropdownMenuItem<int>(
-                                value: match['id'],
-                                child: Text(match['name']),
-                              );
-                            }).toList(),
+                            items: data.matches.map<DropdownMenuItem<String>>(
+                              (match) {
+                                return DropdownMenuItem<String>(
+                                  value: match['name'],
+                                  child: Text(match['name']),
+                                );
+                              },
+                            ).toList(),
                           ),
                         ),
                   Expanded(
@@ -236,7 +220,7 @@ class _TeamPageState extends State<TeamPage> {
                               RaisedButton(
                                 color: Colors.redAccent[300],
                                 onPressed: () async {
-                                  await data.setPlayersList(data.currentMatch);
+                                  await data.getCurrentMatchDetails();
                                   Navigator.pop(context);
                                 },
                                 child: Text(
@@ -251,87 +235,29 @@ class _TeamPageState extends State<TeamPage> {
                               RaisedButton(
                                 color: Colors.amber,
                                 onPressed: () async {
-                                  bool errors = data.checkTeamErrors();
-                                  if (errors) {
-                                    Alert(
-                                      type: AlertType.error,
-                                      context: context,
-                                      title: 'Error',
-                                      content: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'All the 11 players and captain should be selected.',
-                                            style: GoogleFonts.robotoSlab(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Max 4 Oversears players allowed.',
-                                            style: GoogleFonts.robotoSlab(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Not more than 6 players from the same team allowed.',
-                                            style: GoogleFonts.robotoSlab(
-                                              fontSize: 15.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      buttons: [
-                                        DialogButton(
-                                          child: Text(
-                                            "OK",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          width: 120,
-                                        )
-                                      ],
-                                    ).show();
+                                  List<String> lErrors = data.checkTeamErrors();
+                                  if (lErrors.length > 0) {
+                                    showToast(
+                                      lErrors.join("\n"),
+                                      Colors.red,
+                                      4,
+                                    );
                                   } else {
                                     await data.saveTeam().then((temp) {
                                       if (data.status == DataStatus.Saved) {
-                                        showToast();
+                                        showToast(
+                                          'Team Saved!',
+                                          Colors.green,
+                                          2,
+                                        );
                                         Navigator.pop(context);
                                       } else if (data.status ==
                                           DataStatus.Failed) {
-                                        Alert(
-                                          type: AlertType.error,
-                                          context: context,
-                                          title: 'Error',
-                                          content: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                'Failed to save the data.',
-                                                style: GoogleFonts.robotoSlab(
-                                                  fontSize: 15.0,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          buttons: [
-                                            DialogButton(
-                                              child: Text(
-                                                "OK",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 20),
-                                              ),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              width: 120,
-                                            )
-                                          ],
-                                        ).show();
+                                        showToast(
+                                          'Failed to save the data.',
+                                          Colors.red,
+                                          2,
+                                        );
                                       }
                                     });
                                   }
@@ -367,17 +293,26 @@ class _TeamPageState extends State<TeamPage> {
                               ),
                               RaisedButton(
                                 color: Colors.amber,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return TeamPage(
-                                          edit: true,
-                                        );
-                                      },
-                                    ),
-                                  );
+                                onPressed: () async {
+                                  await data.getCurrentMatchDetails();
+                                  if (data.status == DataStatus.Loaded) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return TeamPage(
+                                            edit: true,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else if (data.status == DataStatus.Failed) {
+                                    showToast(
+                                      'Failed to load data!',
+                                      Colors.red,
+                                      3,
+                                    );
+                                  }
                                 },
                                 child: Text(
                                   'Change Team',
