@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:fantasy_app/components/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:fantasy_app/providers/user.dart';
+import '../providers/data.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+    final data = Provider.of<DataRepository>(context);
     return WrapperWidget(
       pageWidget: Container(
         margin: EdgeInsets.all(10.0),
@@ -61,7 +63,8 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 height: 5.0,
               ),
-              user.status == UserStatus.Registering
+              user.status == UserStatus.Registering ||
+                      user.status == UserStatus.Authenticated
                   ? Center(child: CircularProgressIndicator())
                   : Container(
                       padding: EdgeInsets.all(10),
@@ -69,21 +72,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.amber,
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
-                            await user
-                                .register(_email, _password, _teamName)
-                                .then(
-                              (userRegistered) {
-                                if (userRegistered) {
-                                  Navigator.pushNamed(context, 'homescreen');
-                                } else {
-                                  showToast(
-                                    user.errorMessage,
-                                    Colors.red,
-                                    4,
-                                  );
-                                }
-                              },
-                            );
+                            bool userRegistered = await user.register(
+                                _email, _password, _teamName);
+                            if (userRegistered) {
+                              data.userEmail = user.user.email;
+                              data.getData();
+                              Navigator.pushNamed(context, 'homescreen');
+                            } else {
+                              showAlert(
+                                context,
+                                'Error',
+                                user.errorMessage,
+                                Colors.red,
+                              );
+                            }
                           }
                         },
                         child: Text(

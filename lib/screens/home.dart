@@ -104,7 +104,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: RaisedButton(
                           onPressed: () {
                             user.signOut();
-                            Navigator.pop(context);
+                            if (user.userRegistered) {
+                              Navigator.pushNamed(context, 'loginscreen');
+                            } else {
+                              Navigator.pop(context);
+                            }
                           },
                           child: Text(
                             'Log Out',

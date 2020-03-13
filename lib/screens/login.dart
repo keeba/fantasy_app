@@ -64,10 +64,11 @@ class _LoginPageState extends State<LoginPage> {
                                   data.getData();
                                   Navigator.pushNamed(context, 'homescreen');
                                 } else {
-                                  showToast(
+                                  showAlert(
+                                    context,
+                                    'Error',
                                     user.errorMessage,
                                     Colors.red,
-                                    4,
                                   );
                                 }
                               },

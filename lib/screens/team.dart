@@ -237,29 +237,42 @@ class _TeamPageState extends State<TeamPage> {
                                 onPressed: () async {
                                   List<String> lErrors = data.checkTeamErrors();
                                   if (lErrors.length > 0) {
-                                    showToast(
+                                    showAlert(
+                                      context,
+                                      'Error',
                                       lErrors.join("\n"),
                                       Colors.red,
-                                      4,
                                     );
                                   } else {
-                                    await data.saveTeam().then((temp) {
+                                    ConfirmAction returnVal =
+                                        await showConfirmAlert(
+                                      context,
+                                      'Transfers',
+                                      data.lTransfers.join("\n"),
+                                      Colors.blueAccent,
+                                    );
+                                    if (returnVal == ConfirmAction.ACCEPT) {
+                                      await data.saveTeam();
                                       if (data.status == DataStatus.Saved) {
-                                        showToast(
+                                        await showAlert(
+                                          context,
+                                          'Success',
                                           'Team Saved!',
                                           Colors.green,
-                                          2,
                                         );
-                                        Navigator.pop(context);
+                                        Navigator.pushNamed(
+                                            context, 'teamscreen');
                                       } else if (data.status ==
                                           DataStatus.Failed) {
-                                        showToast(
+                                        showAlert(
+                                          context,
+                                          'Error',
                                           'Failed to save the data.',
                                           Colors.red,
-                                          2,
                                         );
+                                        Navigator.pop(context);
                                       }
-                                    });
+                                    }
                                   }
                                 },
                                 child: Text(
@@ -307,10 +320,11 @@ class _TeamPageState extends State<TeamPage> {
                                       ),
                                     );
                                   } else if (data.status == DataStatus.Failed) {
-                                    showToast(
+                                    showAlert(
+                                      context,
+                                      'Error',
                                       'Failed to load data!',
                                       Colors.red,
-                                      3,
                                     );
                                   }
                                 },

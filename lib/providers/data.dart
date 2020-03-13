@@ -30,6 +30,7 @@ class DataRepository extends ChangeNotifier {
   int _totalTransfers;
   bool _phaseStarted;
   String _selectedMatch;
+  List<String> _lTransfers = [];
 
   DataStatus get status => _status;
   DocumentSnapshot get userData => _userData;
@@ -46,6 +47,7 @@ class DataRepository extends ChangeNotifier {
   int get totalTransfers => _totalTransfers;
   bool get phaseStarted => _phaseStarted;
   String get selectedMatch => _selectedMatch;
+  List<String> get lTransfers => _lTransfers;
 
   set selectedMatch(match) => _selectedMatch = match;
   set userEmail(email) => _userEmail = email;
@@ -337,16 +339,43 @@ class DataRepository extends ChangeNotifier {
 
   int getTransfersMade() {
     int transferCount = 0;
+    List<int> lNewPlayers = [];
+    List<int> lOldPlayers = [];
+    List<int> lCurrentPlayers = [];
+    _lTransfers = [];
     if (_lPrevSelectedPlayers.length > 0) {
       _hCurrentPlayers.forEach(
         (k, v) {
+          lCurrentPlayers.add(v.id);
           if (k != 'captain' && !_lPrevSelectedPlayers.contains(v.id)) {
             ++transferCount;
+            lNewPlayers.add(v.id);
           }
         },
       );
+      if (_transfersMade > 0) {
+        _lPrevSelectedPlayers.forEach(
+          (id) {
+            if (!lCurrentPlayers.contains(id)) {
+              lOldPlayers.add(id);
+            }
+          },
+        );
+        int len = lOldPlayers.length;
+        for (int i = 0; i < len; i++) {
+          _lTransfers.add(
+            _players[lOldPlayers[i]].name +
+                ' => ' +
+                _players[lNewPlayers[i]].name,
+          );
+        }
+      }
+      _lTransfers.add('Captain => ' + _hCurrentPlayers['captain'].name);
       return transferCount;
+    } else {
+      _lTransfers.add('Captain => ' + _hCurrentPlayers['captain'].name);
     }
+
     return 0;
   }
 

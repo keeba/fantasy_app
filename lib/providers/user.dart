@@ -18,6 +18,7 @@ class UserRepository extends ChangeNotifier {
   FirebaseUser _user;
   UserStatus _status = UserStatus.Uninitialized;
   String _message;
+  bool _userRegistered = false;
 
   UserRepository() {
     _auth.onAuthStateChanged.listen(_onAuthStateChanged);
@@ -26,6 +27,7 @@ class UserRepository extends ChangeNotifier {
   UserStatus get status => _status;
   FirebaseUser get user => _user;
   String get errorMessage => _message;
+  bool get userRegistered => _userRegistered;
 
   Future<bool> signIn(String email, String password) async {
     try {
@@ -76,9 +78,11 @@ class UserRepository extends ChangeNotifier {
   Future<bool> register(_email, _password, _teamName) async {
     try {
       _status = UserStatus.Registering;
+      notifyListeners();
       await _auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
-      updateUserInfo(_email, _teamName);
+      await updateUserInfo(_email, _teamName);
+      _userRegistered = true;
       return true;
     } catch (e) {
       _status = UserStatus.RegistrationFailed;
