@@ -1,4 +1,4 @@
-import 'package:fantasy_app/components/commonfunctions.dart';
+import 'package:fantasy_app/components/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:fantasy_app/components/wrapper_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -5,7 +5,7 @@ import '../components/wrapper_widget.dart';
 import '../components/player_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/data.dart';
-import 'package:fantasy_app/components/commonfunctions.dart';
+import 'package:fantasy_app/components/dialogs.dart';
 
 class TeamPage extends StatefulWidget {
   TeamPage({this.edit: false});

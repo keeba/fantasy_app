@@ -1,4 +1,4 @@
-import 'package:fantasy_app/components/commonfunctions.dart';
+import 'package:fantasy_app/components/dialogs.dart';
 import 'package:fantasy_app/providers/data.dart';
 import 'package:fantasy_app/providers/user.dart';
 import 'package:flutter/material.dart';
