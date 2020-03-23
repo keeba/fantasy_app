@@ -1,5 +1,7 @@
 import 'package:fantasy_app/providers/data.dart';
 import 'package:fantasy_app/providers/user.dart';
+import 'package:fantasy_app/screens/board.dart';
+import 'package:fantasy_app/screens/points.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/home.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => UserRepository(),
         ),
-        ChangeNotifierProvider<DataRepository>(
+        ChangeNotifierProvider(
           create: (_) => DataRepository(),
         ),
       ],
@@ -58,6 +60,8 @@ class MyApp extends StatelessWidget {
               'rulesscreen': (context) => RulesPage(),
               'registerscreen': (context) => RegisterPage(),
               'selectcaptain': (context) => SelectCaptainPage(),
+              'pointsscreen': (context) => PointsPage(),
+              'boardscreen': (context) => LeaderBoardPage(),
             },
           );
         },

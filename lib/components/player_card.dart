@@ -157,6 +157,13 @@ class PlayerShow extends StatelessWidget {
 
   final bool edit;
   final String playerType;
+  final lSpacePlayers = [
+    'player7',
+    'player8',
+    'player9',
+    'player10',
+    'player11'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -180,6 +187,11 @@ class PlayerShow extends StatelessWidget {
                 Container(
                   child: playerTypeIcons[playerType],
                 ),
+                lSpacePlayers.contains(playerType)
+                    ? SizedBox(
+                        width: 5.0,
+                      )
+                    : SizedBox.shrink(),
                 Container(
                   padding: EdgeInsets.all(2),
                   child: Text(

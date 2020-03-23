@@ -57,7 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintText: 'Enter your team name',
                 onPressed: (input) => _teamName = input,
                 onValidate: (value) =>
-                    value.isEmpty ? 'Tean Name can not be empty' : null,
+                    value.isEmpty ? 'Team Name can not be empty' : null,
                 iconData: FontAwesomeIcons.users,
               ),
               SizedBox(

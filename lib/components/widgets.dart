@@ -16,34 +16,37 @@ class MyTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: obscure,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        icon: Icon(
-          iconData,
-          color: Colors.yellow[500],
-        ),
-        errorStyle: TextStyle(
-          fontSize: 15.0,
-          fontWeight: FontWeight.bold,
-        ),
-        hintText: this.hintText,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.yellow[100],
-            width: 1.0,
+    return Container(
+      margin: EdgeInsets.all(2.5),
+      child: TextFormField(
+        obscureText: obscure,
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(
+          icon: Icon(
+            iconData,
+            color: Colors.yellow[500],
+          ),
+          errorStyle: TextStyle(
+            fontSize: 15.0,
+            fontWeight: FontWeight.bold,
+          ),
+          hintText: this.hintText,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.yellow[100],
+              width: 1.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.yellow,
+              width: 2.0,
+            ),
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.yellow,
-            width: 2.0,
-          ),
-        ),
+        onChanged: this.onPressed,
+        validator: this.onValidate,
       ),
-      onChanged: this.onPressed,
-      validator: this.onValidate,
     );
   }
 }

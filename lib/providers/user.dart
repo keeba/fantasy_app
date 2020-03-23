@@ -105,7 +105,6 @@ class UserRepository extends ChangeNotifier {
 
     await _db.collection('users').document(_email).setData(
       {
-        'transfers_total': configDS['phase_transfers'],
         'transfers_left': configDS['phase_transfers'],
         'team_name': _teamName,
       },

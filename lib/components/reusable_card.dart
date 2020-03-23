@@ -16,46 +16,41 @@ class ReusableCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
-            color: Color(0xffABEBC6),
+            color: Colors.green[100],
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.black54, width: 2.0)),
+            border: Border.all(color: Colors.green[900], width: 2.0)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 2,
+              flex: 1,
               child: Container(),
             ),
             Expanded(
-              flex: 4,
+              flex: 3,
               child: new LayoutBuilder(
                 builder: (context, constraint) {
-                  return new Icon(
-                    fontIcon,
-                    size: constraint.biggest.height,
-                    color: Colors.black54,
+                  return Center(
+                    child: new Icon(
+                      fontIcon,
+                      size: constraint.biggest.height,
+                      color: Colors.black54,
+                    ),
                   );
                 },
               ),
             ),
             Expanded(
-              flex: 1,
-              child: Container(),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(
-                title,
-                style: GoogleFonts.robotoSlab(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+              flex: 4,
+              child: Center(
+                child: Text(
+                  title,
+                  style: GoogleFonts.robotoSlab(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
             ),
           ],
         ),

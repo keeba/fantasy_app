@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fantasy_app/model/player.dart';
 import 'package:flutter/foundation.dart';
 
-enum DataStatus { Loaded, Loading, NotLoaded, Saving, Saved, Failed }
+enum DataStatus { Loaded, Loading, NotLoaded, Saved, Failed }
 
 class DataRepository extends ChangeNotifier {
   final Firestore _db = Firestore.instance;
@@ -13,7 +13,6 @@ class DataRepository extends ChangeNotifier {
   List _matches = [];
   DocumentSnapshot _configurations;
   String _currentMatch;
-  int _currentMatchID;
   String _prevMatch;
   Map _hCurrentPlayers = {};
   String _userEmail;
@@ -22,35 +21,49 @@ class DataRepository extends ChangeNotifier {
   int _purseUsed = 0;
   int _purseLeft = 1000000;
   Stream<QuerySnapshot> _selectablePlayers;
-  Stream<QuerySnapshot> _selectableMatches;
   List<Player> _lSelectedPlayers = [];
   List<int> _lPrevSelectedPlayers = [];
   int _transfersMade = 0;
   int _transfersLeft;
   int _totalTransfers;
+  int _pendingTransfers;
   bool _phaseStarted;
   String _selectedMatch;
   List<String> _lTransfers = [];
+  String _team1;
+  String _team2;
+  String _selectedTeam;
+  Stream<DocumentSnapshot> _pointsStream;
+  Stream<DocumentSnapshot> _rankingsStream;
 
   DataStatus get status => _status;
   DocumentSnapshot get userData => _userData;
   DocumentSnapshot get configurations => _configurations;
   List get matches => _matches;
   String get currentMatch => _currentMatch;
+  String get prevMatch => _prevMatch;
   Map get hCurrentPlayers => _hCurrentPlayers;
-  int get currentMatchID => _currentMatchID;
   int get purseUsed => _purseUsed;
   int get purseLeft => _purseLeft;
   Stream<QuerySnapshot> get selectablePlayers => _selectablePlayers;
   List<Player> get lSelectedPlayers => _lSelectedPlayers;
+  int get transfersMade => _transfersMade;
   int get transfersLeft => _transfersLeft;
   int get totalTransfers => _totalTransfers;
+  int get pendingTransfers => _pendingTransfers;
   bool get phaseStarted => _phaseStarted;
   String get selectedMatch => _selectedMatch;
   List<String> get lTransfers => _lTransfers;
+  String get team1 => _team1;
+  String get team2 => _team2;
+  String get selectedTeam => _selectedTeam;
+  Stream<DocumentSnapshot> get pointsStream => _pointsStream;
+  Stream<DocumentSnapshot> get rankingsStream => _rankingsStream;
+  String get userEmail => _userEmail;
 
   set selectedMatch(match) => _selectedMatch = match;
   set userEmail(email) => _userEmail = email;
+  set selectedTeam(team) => _selectedTeam = team;
 
   Map _hPlayerIndexes = {
     'player1': {'name': 'Player 1', 'type': 1},
@@ -68,50 +81,72 @@ class DataRepository extends ChangeNotifier {
   };
 
   Future<void> getData() async {
-    _status = DataStatus.Loading;
+    try {
+      _status = DataStatus.Loading;
+      notifyListeners();
 
-    //get players data
+      //get players data
+      await getPlayersData();
+
+      // get configurations
+      await getConfigData();
+
+      // get matches data
+      await getMatchesData();
+
+      //get user data
+      await getUserData();
+
+      _status = DataStatus.Loaded;
+      notifyListeners();
+    } catch (e) {
+      _status = DataStatus.NotLoaded;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getPlayersData() async {
     QuerySnapshot playersQS = await _db.collection('players').getDocuments();
     playersQS.documents.forEach((doc) => _players[doc['id']] = doc);
+  }
 
-    // get configurations
+  Future<void> getConfigData() async {
     DocumentSnapshot configDS =
         await _db.collection('configurations').document('configurations').get();
     _configurations = configDS;
     _phaseStarted = configDS['phase_started'];
     _totalTransfers = configDS['phase_transfers'];
-    _currentMatchID = configDS['current_match'];
-
-    // get user data
-    DocumentSnapshot userDataDS =
-        await _db.collection('users').document(_userEmail).get();
-    _userData = userDataDS;
-    _transfersLeft = userDataDS['transfers_left'];
-
-    // get matches data
-    await getMatchesData();
+    _currentMatch = configDS['current_match'];
+    _prevMatch = configDS['prev_match'];
+    _selectedMatch = _currentMatch;
   }
 
   Future<void> getMatchesData() async {
     _matches = [];
     QuerySnapshot matchesQS = await _db
         .collection('matches')
-        .where("id", isLessThanOrEqualTo: _currentMatchID)
+        .where("name", isLessThanOrEqualTo: _currentMatch)
+        .orderBy("name", descending: true)
         .getDocuments();
     matchesQS.documents.forEach(
       (match) {
-        if (match['id'] == _currentMatchID) {
-          _currentMatch = match['name'];
-          _selectedMatch = match['name'];
-        } else if (match['id'] == _configurations['prev_match']) {
-          _prevMatch = match['name'];
-        }
         _matches.add(match);
       },
     );
+  }
 
-    await getPlayersList(_currentMatch);
-    if (_prevMatch != null) {
+  Future<void> getUserData() async {
+    if (_userEmail != null) {
+      _status = DataStatus.Loading;
+      notifyListeners();
+      // get user data
+      DocumentSnapshot userDataDS =
+          await _db.collection('users').document(_userEmail).get();
+      _userData = userDataDS;
+      _transfersLeft = userDataDS['transfers_left'];
+      _pendingTransfers = userDataDS['pending_transfers'];
+
+      await getPlayersList(_currentMatch);
       await getPrevPlayersList();
     }
   }
@@ -124,7 +159,7 @@ class DataRepository extends ChangeNotifier {
         .collection('users')
         .document(_userEmail)
         .collection(match)
-        .document(match)
+        .document('team')
         .get();
 
     if (currentMatchDS != null && currentMatchDS.data != null) {
@@ -153,17 +188,20 @@ class DataRepository extends ChangeNotifier {
   }
 
   Future<void> getPrevPlayersList() async {
+    _lPrevSelectedPlayers = [];
     DocumentSnapshot prevMatchDS = await _db
         .collection('users')
         .document(_userEmail)
         .collection(_prevMatch)
-        .document(_prevMatch)
+        .document('team')
         .get();
     if (prevMatchDS != null && prevMatchDS.data != null) {
       _hPlayerIndexes.forEach(
         (key, val) {
-          Player player = Player.fromFireStore(_players[prevMatchDS[key]]);
-          _lPrevSelectedPlayers.add(player.id);
+          if (key != 'captain') {
+            Player player = Player.fromFireStore(_players[prevMatchDS[key]]);
+            _lPrevSelectedPlayers.add(player.id);
+          }
         },
       );
     }
@@ -280,10 +318,10 @@ class DataRepository extends ChangeNotifier {
   }
 
   List<String> checkTeamErrors() {
+    List<String> lErrors = [];
     int playerError = 0;
     int overSeasCount = 0;
     int teamError = 0;
-    List<String> lErrors = [];
     Map hPlayersByTeam = {
       'MI': 0,
       'CSK': 0,
@@ -328,28 +366,30 @@ class DataRepository extends ChangeNotifier {
       lErrors.add('Max 4 Oversears players allowed.');
     }
 
-    _transfersMade = getTransfersMade();
+    getTransfersMade();
     if (_transfersMade > _userData['transfers_left']) {
       lErrors.add(
           'Only ${_userData['transfers_left']} transfers allowed but you made $_transfersMade.');
     }
-
     return lErrors;
   }
 
-  int getTransfersMade() {
-    int transferCount = 0;
+  void getTransfersMade() {
+    _transfersMade = 0;
     List<int> lNewPlayers = [];
     List<int> lOldPlayers = [];
     List<int> lCurrentPlayers = [];
     _lTransfers = [];
+
     if (_lPrevSelectedPlayers.length > 0) {
       _hCurrentPlayers.forEach(
         (k, v) {
-          lCurrentPlayers.add(v.id);
-          if (k != 'captain' && !_lPrevSelectedPlayers.contains(v.id)) {
-            ++transferCount;
-            lNewPlayers.add(v.id);
+          if (k != 'captain') {
+            lCurrentPlayers.add(v.id);
+            if (!_lPrevSelectedPlayers.contains(v.id)) {
+              ++_transfersMade;
+              lNewPlayers.add(v.id);
+            }
           }
         },
       );
@@ -363,20 +403,17 @@ class DataRepository extends ChangeNotifier {
         );
         int len = lOldPlayers.length;
         for (int i = 0; i < len; i++) {
+          Player player1 = Player.fromFireStore(_players[lOldPlayers[i]]);
+          Player player2 = Player.fromFireStore(_players[lNewPlayers[i]]);
           _lTransfers.add(
-            _players[lOldPlayers[i]].name +
-                ' => ' +
-                _players[lNewPlayers[i]].name,
+            player1.displayName(false) + ' => ' + player2.displayName(false),
           );
         }
       }
-      _lTransfers.add('Captain => ' + _hCurrentPlayers['captain'].name);
-      return transferCount;
+      _lTransfers.add(_hCurrentPlayers['captain'].name + ' (Captain)');
     } else {
-      _lTransfers.add('Captain => ' + _hCurrentPlayers['captain'].name);
+      _lTransfers.add(_hCurrentPlayers['captain'].name + ' (Captain)');
     }
-
-    return 0;
   }
 
   Future<void> saveTeam() async {
@@ -387,7 +424,7 @@ class DataRepository extends ChangeNotifier {
           .collection('users')
           .document(_userEmail)
           .collection(_currentMatch)
-          .document(_currentMatch)
+          .document('team')
           .setData(
         {
           'player1': _hCurrentPlayers['player1'].id,
@@ -404,12 +441,13 @@ class DataRepository extends ChangeNotifier {
           'captain': _hCurrentPlayers['captain'].id,
         },
       );
-      _transfersLeft -= _transfersMade;
-      await _db
-          .collection('users')
-          .document(_userEmail)
-          .setData({'transfers_left': _transfersLeft}, merge: true);
-
+      if (_phaseStarted) {
+        await _db
+            .collection('users')
+            .document(_userEmail)
+            .setData({'pending_transfers': _transfersMade}, merge: true);
+        _pendingTransfers = _transfersMade;
+      }
       _status = DataStatus.Saved;
       notifyListeners();
     } catch (e) {
@@ -441,7 +479,7 @@ class DataRepository extends ChangeNotifier {
     return existingPlayer;
   }
 
-  Future<void> getCurrentMatchDetails() async {
+  Future<void> resetData(update) async {
     try {
       _status = DataStatus.Loading;
       notifyListeners();
@@ -449,18 +487,96 @@ class DataRepository extends ChangeNotifier {
           .collection('configurations')
           .document('configurations')
           .get();
-      if (_currentMatchID != configDS['current_match']) {
-        _currentMatchID = configDS['current_match'];
-        await getMatchesData();
+      if (_currentMatch != configDS['current_match']) {
+        _configurations = configDS;
+        _phaseStarted = configDS['phase_started'];
+        _totalTransfers = configDS['phase_transfers'];
+        _currentMatch = configDS['current_match'];
+        _prevMatch = configDS['prev_match'];
+        _selectedMatch = _currentMatch;
+        getMatchesData();
+        if (update) {
+          getUserData();
+        }
+        _status = DataStatus.Loaded;
+        notifyListeners();
       } else {
         if (_selectedMatch != _currentMatch) {
           _selectedMatch = _currentMatch;
         }
-        await getPlayersList(_currentMatch);
+        if (update) {
+          await getPlayersList(_currentMatch);
+          if (_lPrevSelectedPlayers.length == 0 &&
+              hCurrentPlayers['player1'].id > 0) {
+            getPrevPlayersList();
+          }
+        }
+
+        _status = DataStatus.Loaded;
+        notifyListeners();
       }
-      _status = DataStatus.Loaded;
     } catch (e) {
       _status = DataStatus.NotLoaded;
+      notifyListeners();
     }
+  }
+
+  void setPointsStream() {
+    _pointsStream = _db
+        .collection('matches')
+        .document(_selectedMatch)
+        .collection('points')
+        .document(_selectedTeam)
+        .snapshots();
+    notifyListeners();
+  }
+
+  Player getPlayer(playerID) {
+    return Player.fromFireStore(_players[int.parse(playerID)]);
+  }
+
+  void updatePointsPage(match) {
+    _selectedMatch = match;
+    _matches.forEach(
+      (m) {
+        if (m['name'] == match) {
+          _team1 = m['team1'];
+          _team2 = m['team2'];
+          _selectedTeam = _team1;
+        }
+      },
+    );
+    setPointsStream();
+    notifyListeners();
+  }
+
+  void setRankingsStream(match) {
+    if (match == 'Overall') {
+      _rankingsStream =
+          _db.collection('configurations').document('rankings').snapshots();
+    } else {
+      _rankingsStream = _db
+          .collection('matches')
+          .document(_selectedMatch)
+          .collection('rankings')
+          .document('rankings')
+          .snapshots();
+    }
+    notifyListeners();
+  }
+
+  Future<String> getUserEmail(team) async {
+    _status = DataStatus.Loading;
+    notifyListeners();
+    QuerySnapshot qs = await _db.collection('users').getDocuments();
+    String email;
+    qs.documents.forEach(
+      (ds) {
+        if (ds.data['team_name'] == team) {
+          email = ds.documentID;
+        }
+      },
+    );
+    return email;
   }
 }
