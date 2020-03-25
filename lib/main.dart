@@ -1,7 +1,9 @@
 import 'package:fantasy_app/providers/data.dart';
 import 'package:fantasy_app/providers/user.dart';
 import 'package:fantasy_app/screens/board.dart';
+import 'package:fantasy_app/screens/forgotpassword.dart';
 import 'package:fantasy_app/screens/points.dart';
+import 'package:fantasy_app/screens/userpoints.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'screens/home.dart';
@@ -62,6 +64,8 @@ class MyApp extends StatelessWidget {
               'selectcaptain': (context) => SelectCaptainPage(),
               'pointsscreen': (context) => PointsPage(),
               'boardscreen': (context) => LeaderBoardPage(),
+              'userpointsscreen': (context) => UserPointsPage(),
+              'forgotscreen': (context) => ForgotPasswordPage(),
             },
           );
         },

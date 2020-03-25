@@ -4,7 +4,7 @@ import 'package:fantasy_app/providers/data.dart';
 import 'package:flutter/material.dart';
 import '../components/wrapper_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../components/teamcard.dart';
+import '../components/team_card.dart';
 import 'package:provider/provider.dart';
 import '../model/player.dart';
 
@@ -27,7 +27,7 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
             height: 75,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.green[100],
+              color: Color(0XFFFFFFE0),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -76,97 +76,82 @@ class _SelectPlayerPageState extends State<SelectPlayerPage> {
             margin: EdgeInsets.all(8.0),
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Colors.yellow[100],
+              color: Color(0XFFF0F8FF),
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Filter By :',
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        data.filterPlayers('All');
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.yellow[900], width: 1.0),
-                          borderRadius: BorderRadius.circular(5.0),
-                          color: Colors.yellow[700],
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Filter By :',
+                        style: GoogleFonts.robotoSlab(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54,
                         ),
-                        child: Text(
-                          'Show All',
-                          style: GoogleFonts.robotoSlab(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          data.filterPlayers('All');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: Colors.yellow[900], width: 1.0),
+                            borderRadius: BorderRadius.circular(5.0),
+                            color: Colors.yellow[700],
+                          ),
+                          child: Text(
+                            'Show All',
+                            style: GoogleFonts.robotoSlab(
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                  ],
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                    ],
+                  ),
                 ),
-                Column(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            TeamCard('CSK', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('DD', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('KKR', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('KXIP', 'edit'),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            TeamCard('MI', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('RCB', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('RR', 'edit'),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            TeamCard('SRH', 'edit'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TeamCard('CSK', 'edit'),
+                          TeamCard('DD', 'edit'),
+                          TeamCard('KKR', 'edit'),
+                          TeamCard('KXIP', 'edit'),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          TeamCard('MI', 'edit'),
+                          TeamCard('RCB', 'edit'),
+                          TeamCard('RR', 'edit'),
+                          TeamCard('SRH', 'edit'),
+                        ],
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

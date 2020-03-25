@@ -22,61 +22,88 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
     final data = Provider.of<DataRepository>(context);
-    return WrapperWidget(
-      pageWidget: Container(
-        margin: EdgeInsets.all(10.0),
-        child: Form(
-          key: _formKey,
-          autovalidate: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              MyTextFormField(
-                hintText: 'Enter your email',
-                onPressed: (input) => _email = input,
-                onValidate: (value) =>
-                    value.isEmpty ? 'Email can not be empty' : null,
-                iconData: Icons.email,
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              MyTextFormField(
-                hintText: 'Enter your password',
-                onPressed: (input) => _password = input,
-                onValidate: (value) =>
-                    value.isEmpty ? 'Password can not be empty' : null,
-                iconData: FontAwesomeIcons.key,
-                obscure: true,
-              ),
-              user.status == UserStatus.Authenticating
-                  ? Center(child: CircularProgressIndicator())
-                  : Container(
-                      padding: EdgeInsets.all(10),
-                      child: RaisedButton(
-                        color: Colors.lime,
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            await user.signIn(_email, _password).then(
-                              (userSignedIn) {
-                                if (userSignedIn) {
-                                  data.userEmail = user.user.email;
-                                  data.getData();
-                                  Navigator.pushNamed(context, 'homescreen');
-                                } else {
-                                  showAlert(
-                                    context,
-                                    'Error',
-                                    user.errorMessage,
-                                    Colors.red,
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pushNamed(context, 'loginscreen');
+        return Future.value(false);
+      },
+      child: WrapperWidget(
+        pageWidget: Container(
+          margin: EdgeInsets.all(10.0),
+          child: Form(
+            key: _formKey,
+            autovalidate: true,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                MyTextFormField(
+                  hintText: 'Enter your email',
+                  onPressed: (input) => _email = input,
+                  onValidate: (value) =>
+                      value.isEmpty ? 'Email can not be empty' : null,
+                  iconData: Icons.email,
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                MyTextFormField(
+                  hintText: 'Enter your password',
+                  onPressed: (input) => _password = input,
+                  onValidate: (value) =>
+                      value.isEmpty ? 'Password can not be empty' : null,
+                  iconData: FontAwesomeIcons.key,
+                  obscure: true,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    user.status == UserStatus.Authenticating ||
+                            user.status == UserStatus.Authenticated
+                        ? Center(child: CircularProgressIndicator())
+                        : Container(
+                            padding: EdgeInsets.all(10),
+                            child: RaisedButton(
+                              color: Color(0XFFB0E0E6),
+                              onPressed: () async {
+                                if (_formKey.currentState.validate()) {
+                                  await user.signIn(_email, _password).then(
+                                    (userSignedIn) {
+                                      if (userSignedIn) {
+                                        Navigator.pushNamed(
+                                            context, 'homescreen');
+                                        data.userEmail = user.user.email;
+                                        data.getData();
+                                      } else {
+                                        showAlert(
+                                          context,
+                                          'Error',
+                                          user.errorMessage,
+                                          Colors.red,
+                                        );
+                                      }
+                                    },
                                   );
                                 }
                               },
-                            );
-                          }
+                              child: Text(
+                                'LogIn',
+                                style: GoogleFonts.robotoSlab(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30.0,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: RaisedButton(
+                        color: Colors.amber[300],
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'registerscreen');
                         },
                         child: Text(
-                          'LogIn',
+                          'Register',
                           style: GoogleFonts.robotoSlab(
                             fontWeight: FontWeight.bold,
                             fontSize: 30.0,
@@ -85,24 +112,27 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: RaisedButton(
-                  color: Colors.amber,
-                  onPressed: () {
-                    Navigator.pushNamed(context, 'registerscreen');
-                  },
-                  child: Text(
-                    'Register',
-                    style: GoogleFonts.robotoSlab(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
-                      color: Colors.black87,
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'forgotscreen');
+                    },
+                    child: Text(
+                      'Forgot Password?',
+                      style: GoogleFonts.robotoSlab(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Colors.white70,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

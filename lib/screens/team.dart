@@ -329,7 +329,7 @@ class _TeamPageState extends State<TeamPage> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     RaisedButton(
-                                      color: Colors.redAccent[300],
+                                      color: Color(0XFFB22222),
                                       onPressed: () async {
                                         bool returnVal =
                                             await showConfirmAlert(context);
@@ -408,7 +408,12 @@ class _TeamPageState extends State<TeamPage> {
                                     ? Center(
                                         child: RaisedButton(
                                           color: Colors.lime,
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            data.updateUserPointsPage(
+                                                data.prevMatch);
+                                            Navigator.pushNamed(
+                                                context, 'userpointsscreen');
+                                          },
                                           child: Text(
                                             'View Points',
                                             style: GoogleFonts.robotoSlab(
@@ -425,7 +430,12 @@ class _TeamPageState extends State<TeamPage> {
                                         children: <Widget>[
                                           RaisedButton(
                                             color: Colors.lime,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              data.updateUserPointsPage(
+                                                  data.prevMatch);
+                                              Navigator.pushNamed(
+                                                  context, 'userpointsscreen');
+                                            },
                                             child: Text(
                                               'View Points',
                                               style: GoogleFonts.robotoSlab(

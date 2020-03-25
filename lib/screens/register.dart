@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   : Container(
                       padding: EdgeInsets.all(10),
                       child: RaisedButton(
-                        color: Colors.amber,
+                        color: Colors.amber[300],
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             bool userRegistered = await user.register(

@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fantasy_app/model/player.dart';
 import 'package:fantasy_app/components/consts.dart';
-import 'package:fantasy_app/components/teamcard.dart';
+import 'package:fantasy_app/components/team_card.dart';
 import 'package:provider/provider.dart';
 
 class Captain extends StatelessWidget {

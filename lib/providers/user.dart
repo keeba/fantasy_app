@@ -110,4 +110,8 @@ class UserRepository extends ChangeNotifier {
       },
     );
   }
+
+  Future sendPasswordResetEmail(String email) async {
+    return _auth.sendPasswordResetEmail(email: email);
+  }
 }

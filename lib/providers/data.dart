@@ -34,6 +34,7 @@ class DataRepository extends ChangeNotifier {
   String _team2;
   String _selectedTeam;
   Stream<DocumentSnapshot> _pointsStream;
+  Stream<DocumentSnapshot> _userPointsStream;
   Stream<DocumentSnapshot> _rankingsStream;
 
   DataStatus get status => _status;
@@ -58,6 +59,7 @@ class DataRepository extends ChangeNotifier {
   String get team2 => _team2;
   String get selectedTeam => _selectedTeam;
   Stream<DocumentSnapshot> get pointsStream => _pointsStream;
+  Stream<DocumentSnapshot> get userPointsStream => _userPointsStream;
   Stream<DocumentSnapshot> get rankingsStream => _rankingsStream;
   String get userEmail => _userEmail;
 
@@ -521,6 +523,10 @@ class DataRepository extends ChangeNotifier {
     }
   }
 
+  Player getPlayer(playerID) {
+    return Player.fromFireStore(_players[int.parse(playerID)]);
+  }
+
   void setPointsStream() {
     _pointsStream = _db
         .collection('matches')
@@ -529,10 +535,6 @@ class DataRepository extends ChangeNotifier {
         .document(_selectedTeam)
         .snapshots();
     notifyListeners();
-  }
-
-  Player getPlayer(playerID) {
-    return Player.fromFireStore(_players[int.parse(playerID)]);
   }
 
   void updatePointsPage(match) {
@@ -547,6 +549,22 @@ class DataRepository extends ChangeNotifier {
       },
     );
     setPointsStream();
+    notifyListeners();
+  }
+
+  void setUserPointsStream() {
+    _userPointsStream = _db
+        .collection('users')
+        .document(_userEmail)
+        .collection(_selectedMatch)
+        .document('points')
+        .snapshots();
+    notifyListeners();
+  }
+
+  void updateUserPointsPage(match) {
+    _selectedMatch = match;
+    setUserPointsStream();
     notifyListeners();
   }
 

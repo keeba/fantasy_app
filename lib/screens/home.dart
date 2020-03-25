@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SizedBox.shrink(),
                     ),
                     Expanded(
-                      flex: 6,
+                      flex: 5,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: SizedBox.shrink(),
                     ),
                     Expanded(
-                      flex: 6,
+                      flex: 5,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -121,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         padding: EdgeInsets.all(10),
                         child: Center(
                           child: RaisedButton(
+                            color: Color(0XFFB22222),
                             onPressed: () {
                               user.signOut();
                               Navigator.pushNamed(context, 'loginscreen');
